@@ -16,4 +16,4 @@ def upscale_image(input_path, output_path, scale_factor=2):
     print(f"Upscaled image saved to {output_path}")
 
 # Usage
-upscale_image("images/low-res-72dpi.jpg", "images/output_2x.jpg", scale_factor=2)
+upscale_image("test_img/low-res-72dpi.jpg", "test_img/output_2x.jpg", scale_factor=2)
