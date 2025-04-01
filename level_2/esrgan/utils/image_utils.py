@@ -27,4 +27,5 @@ def upscale_image(model, input_path, outoput_path, scale_factor =4):
     sr_img = tf.clip_by_value(sr_img, 0, 1)
     sr_img = tf.image.convert_image_dtype(sr_img[0], tf.uint8)
 
+    #save output
     tf.io.write_file(outoput_path, tf.image.encode_jpeg(sr_img))

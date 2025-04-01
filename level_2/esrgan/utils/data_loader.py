@@ -41,3 +41,16 @@ def create_dataset(lr_dir, hr_dir, batch_size=18, patch_size = 64):
     
     return dataset
     
+
+def augment_image(lr_patch, hr_patch):
+    # rand rotations
+
+    if tf.random.uniform(()) > 0.5:
+        k = tf.random(shape = [], minival= 0, maxval=4, dtype=tf.int32)
+        lr_patch = tf.image.rot90(lr_patch, k=k)
+        hr_patch = tf.image.rot90(hr_patch, k=k)
+    
+    lr_patch = tf.image.random_brightness(lr_patch, 0.1)
+    hr_patch = tf.image.random_brightness(hr_patch, 0.1)
+
+    return lr_patch, hr_patch
