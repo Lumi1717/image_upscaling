@@ -1,7 +1,7 @@
 import tensorflow as tf
 import argparse
 from pathlib import Path
-from level_2.models.generator import Generator
+from level_2.esrgan.models.generator import Generator
 
 def upscale_img (model_path, input_path, output_path, scale_factor = 4):
 

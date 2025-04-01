@@ -1,20 +1,30 @@
 import yaml 
 import tensorflow as tf
-
-from esrgan.utils.data_loader import create_dataset
-from esrgan.training.trainer import ESRGAN_Trainer
+import os
+from ..utils.data_loader import create_dataset
+from ..training.trainer import ESRGAN_Trainer
 
 def main():
     #load config
 
-    with open("configs/train_config.yaml") as f:
-        config = yaml.safe_dump(f)
+    with open("level_2/configs/train_config.yaml") as f:
+        config = yaml.safe_load(f)
+
+    # Get the absolute path to the project root
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
+    # Construct absolute paths
+    train_lr_dir = os.path.join(project_root, "/data/training/lr")
+    train_hr_dir = os.path.join(project_root, "/data/training/hr/DIV2K_train_HR")
+     
+    # Print paths to verify
+    print(f"Looking for LR training images in: {train_lr_dir}")
+    print(f"Looking for HR training images in: {train_hr_dir}")
     
     # init training 
-
     train_dataset = create_dataset(
-        lr_dir=config["data"]["train_lr_dir"],
-        hr_dir=config["data"]["train_hr_dir"],
+        lr_dir=train_lr_dir,
+        hr_dir=train_hr_dir,
         batch_size=config["training"]["batch_size"],
         patch_size=config["training"]["patch_size"]
     )

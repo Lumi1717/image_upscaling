@@ -13,21 +13,39 @@ def create_dataset(lr_dir, hr_dir, batch_size=18, patch_size = 64):
     Returns:
         Configured tf.data.Dataset
     """
+
+    # Get list of image files
+    lr_files = tf.data.Dataset.list_files(lr_dir + "/*", shuffle=True)
+    hr_files = tf.data.Dataset.list_files(hr_dir + "/*", shuffle=True)
+    
+    # Zip the two datasets together
+    dataset = tf.data.Dataset.zip((lr_files, hr_files))
+
     def preprocess_image(lr_path, hr_path):
-        lr = tf.image.decode_image(tf.io.read_file(lr_path), dtype=tf.float32)
-        hr = tf.image.decode_image(tf.io.read_file(hr_path), dtype=tf.float32)
+        # Read images from files
+        lr = tf.io.read_file(lr_path)
+        hr = tf.io.read_file(hr_path)
         
+        
+         # Decode images
+        lr = tf.image.decode_image(lr, channels=3)
+        hr = tf.image.decode_image(hr, channels=3)
 
-        # random chopping
-        shape = tf.shape(hr)
-        hr_patch = tf.image.random_crop(hr, [patch_size, patch_size, 3])
-        lr_patch = tf.image.resize(hr_patch, [patch_size//4 , patch_size//4])
+        # Convert to float32 and normalize to [0, 1]
+        lr = tf.cast(lr, tf.float32) / 255.0
+        hr = tf.cast(hr, tf.float32) / 255.0
 
-        # Random flips
-        if tf.random.uniform(()) > 0.5:
-            lr_patch = tf.image.flip_left_right(lr_patch)
-            hr_patch = tf.image.flip_left_right(hr_patch)
-        return lr_patch, hr_patch
+         # Ensure shapes are set
+        lr.set_shape([None, None, 3])
+        hr.set_shape([None, None, 3])
+
+    
+        # Random crop if patch_size is specified
+        if patch_size:
+            lr = tf.image.random_crop(lr, [patch_size, patch_size, 3])
+            hr = tf.image.random_crop(hr, [patch_size * 4, patch_size * 4, 3])  # assuming 4x upscaling
+            
+        return lr, hr
     
     lr_files = sorted(glob.glob(f"{lr_dir}"))
     hr_files = sorted(glob.glob(f"{hr_dir}"))
