@@ -4,8 +4,8 @@ from pathlib import Path
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from level_2.models import generator, discriminator
-from level_2.losses import esrgn_loss
+from level_2.esrgan.models import generator, discriminator
+from level_2.esrgan.losses import esrgn_loss
 
 class ESRGAN_Trainer:
     def __init__(self, config=None, hr_shape=(128, 128, 3), scale_factor=4):
