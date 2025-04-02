@@ -5,6 +5,8 @@ data:
   val_hr_dir: "level_2/data/val/hr"
   scale_factor: 4  
   num_workers: 8   
+  blur_ksize: 3
+  noise_var: 10
   
 training:
   batch_size: 16
