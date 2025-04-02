@@ -1,0 +1,4 @@
+### Images ###
+*.png
+*.pyc 
+.DS_Store
