@@ -1,8 +1,10 @@
 data:
-  train_lr_dir: "data/DIV2K_train_LR"
-  train_hr_dir: "data/DIV2K_train_HR"
-  val_lr_dir: "data/DIV2K_valid_LR"
-  val_hr_dir: "data/DIV2K_valid_HR"
+  train_lr_dir: "level_2/data/training/lr"
+  train_hr_dir: "level_2/data/training/hr/DIV2K_train_HR"
+  val_lr_dir: "level_2/data/val/lr"
+  val_hr_dir: "level_2/data/val/hr"
+  scale_factor: 4  
+  num_workers: 8   
   
 training:
   batch_size: 16
